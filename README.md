@@ -1,7 +1,7 @@
 Author: Darren Pak
 ID: 2375925
 Email: dapak@chapman.edu
-Class: CPSC 380
+Class: CPSC 408
 Title: Assignment 4 Playlist App
 
 Files Included:
@@ -13,7 +13,7 @@ README.md
 songs.csv
 table_create.sql
 
-Run Instructions:
+Run Instructions (Using Python 3.10):
 python app.py
 
 Bonus:

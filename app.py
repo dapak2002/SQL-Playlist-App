@@ -27,17 +27,28 @@ def pre_process():
         query = "INSERT INTO songs VALUES("+placeholders+")"
         db_ops.bulk_insert(query, data)
 
+    answer = input("Do you want to load new songs into the database (y/n)?\n")
+    if answer == "y":
+        try:
+            filename = input("What is the name of your file? ")
+            data = helper.data_cleaner(filename)
+            attribute_count = len(data[0])
+            placeholders = ("?,"*attribute_count)[:-1]
+            query = "INSERT INTO songs VALUES("+placeholders+")"
+            db_ops.bulk_insert(query,data)
+        except:
+            print("Could not import file.")
+        
 #show user menu options
 def options():
     print('''Select from the following menu options: 
     1. Find songs by artist
     2. Find songs by genre
     3. Find songs by feature
-    4. Add new songs to database
-    5. Update song by name
-    6. Delete song by name
-    7. Exit''')
-    return helper.get_choice([1,2,3,4,5,6,7])
+    4. Update song by name
+    5. Delete song by name
+    6. Exit''')
+    return helper.get_choice([1,2,3,4,5,6])
 
 #search the songs table by artist
 def search_by_artist():
@@ -138,17 +149,6 @@ def search_by_feature():
     results = db_ops.name_placeholder_query(query, dictionary)
     helper.pretty_print(results)
 
-# Add new songs to database
-def data_update():
-    try:
-        filename = input("What is the name of your file? ")
-        data = helper.data_cleaner(filename)
-        attribute_count = len(data[0])
-        placeholders = ("?,"*attribute_count)[:-1]
-        query = "INSERT INTO songs VALUES("+placeholders+")"
-        db_ops.bulk_insert(query,data)
-    except:
-        print("Syntax Error")
 # Update songs by name
 def song_update():
     songName = input("What song do you want to update?\n")
@@ -228,12 +228,10 @@ while True:
     if user_choice == 3:
         search_by_feature()
     if user_choice == 4:
-        data_update()
-    if user_choice == 5:
         song_update()
-    if user_choice == 6:
+    if user_choice == 5:
         delete_song()
-    if user_choice == 7:
+    if user_choice == 6:
         print("Goodbye!")
         break
 
